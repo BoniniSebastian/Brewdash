@@ -54,6 +54,10 @@ const DAYS = [
 let cards = [];
 let settings = {};
 
+// Håller reda på om användaren har tryckt PLANERA
+// och väntar på att mobilen ska vridas till portrait.
+let waitingForPlannerPortrait = false;
+
 
 // =========================
 // ELEMENTS
@@ -61,6 +65,9 @@ let settings = {};
 
 const plannerOverlay =
   document.getElementById("plannerOverlay");
+
+const plannerRotateOverlay =
+  document.getElementById("plannerRotateOverlay");
 
 const cardEditorOverlay =
   document.getElementById("cardEditorOverlay");
@@ -76,6 +83,91 @@ const cardForm =
 
 const highlightsForm =
   document.getElementById("highlightsForm");
+
+
+// =========================
+// MOBILE / ORIENTATION
+// =========================
+
+function isMobilePhone() {
+  return window.matchMedia(
+    "(max-width: 700px), (max-height: 500px)"
+  ).matches;
+}
+
+
+function isPortrait() {
+  return window.matchMedia(
+    "(orientation: portrait)"
+  ).matches;
+}
+
+
+function isAnyEditorOpen() {
+  return (
+    !plannerOverlay.classList.contains("hidden") ||
+    !cardEditorOverlay.classList.contains("hidden") ||
+    !manageOverlay.classList.contains("hidden") ||
+    !highlightsOverlay.classList.contains("hidden")
+  );
+}
+
+
+function openPlannerMenu() {
+  waitingForPlannerPortrait = false;
+
+  plannerRotateOverlay.classList.add("hidden");
+
+  plannerOverlay.classList.remove("hidden");
+
+  document.body.classList.add("editor-open");
+}
+
+
+function closePlanningMode() {
+  waitingForPlannerPortrait = false;
+
+  plannerRotateOverlay.classList.add("hidden");
+  plannerOverlay.classList.add("hidden");
+  cardEditorOverlay.classList.add("hidden");
+  manageOverlay.classList.add("hidden");
+  highlightsOverlay.classList.add("hidden");
+
+  document.body.classList.remove("editor-open");
+}
+
+
+function handleOrientationChange() {
+
+  // Användaren har tryckt PLANERA i landscape
+  // och har nu vridit telefonen till portrait.
+  if (
+    waitingForPlannerPortrait &&
+    isPortrait()
+  ) {
+    openPlannerMenu();
+    return;
+  }
+
+  // Om en editor redan är öppen behåller vi
+  // planeringsläget även vid mindre viewportändringar.
+  if (isAnyEditorOpen()) {
+    document.body.classList.add("editor-open");
+  }
+}
+
+
+window.addEventListener(
+  "orientationchange",
+  () => {
+    setTimeout(handleOrientationChange, 150);
+  }
+);
+
+window.addEventListener(
+  "resize",
+  handleOrientationChange
+);
 
 
 // =========================
@@ -111,7 +203,13 @@ function getISOWeek(date = new Date()) {
   );
 
   const yearStart =
-    new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
+    new Date(
+      Date.UTC(
+        d.getUTCFullYear(),
+        0,
+        1
+      )
+    );
 
   return Math.ceil(
     (((d - yearStart) / 86400000) + 1) / 7
@@ -136,13 +234,17 @@ function updateClock() {
       month: "long"
     }).format(now);
 
-  document.getElementById("currentTime").textContent =
-    time;
+  document.getElementById(
+    "currentTime"
+  ).textContent = time;
 
-  document.getElementById("currentDate").textContent =
-    date.toUpperCase();
+  document.getElementById(
+    "currentDate"
+  ).textContent = date.toUpperCase();
 
-  document.getElementById("currentWeek").textContent =
+  document.getElementById(
+    "currentWeek"
+  ).textContent =
     `VECKA ${getISOWeek(now)}`;
 }
 
@@ -379,9 +481,46 @@ document
   .getElementById("openPlanner")
   .addEventListener("click", () => {
 
-    plannerOverlay.classList.remove("hidden");
+    // På telefon:
+    // portrait -> öppna direkt.
+    // landscape -> be användaren vrida telefonen.
+    if (isMobilePhone()) {
 
-    document.body.classList.add(
+      document.body.classList.add(
+        "editor-open"
+      );
+
+      if (isPortrait()) {
+        openPlannerMenu();
+        return;
+      }
+
+      waitingForPlannerPortrait = true;
+
+      plannerRotateOverlay.classList.remove(
+        "hidden"
+      );
+
+      return;
+    }
+
+    // iPad / dator:
+    // behåll nuvarande beteende.
+    openPlannerMenu();
+  });
+
+
+document
+  .getElementById("cancelPlannerRotate")
+  .addEventListener("click", () => {
+
+    waitingForPlannerPortrait = false;
+
+    plannerRotateOverlay.classList.add(
+      "hidden"
+    );
+
+    document.body.classList.remove(
       "editor-open"
     );
   });
@@ -395,6 +534,8 @@ document
 function closePlanner() {
 
   plannerOverlay.classList.add("hidden");
+
+  waitingForPlannerPortrait = false;
 
   document.body.classList.remove(
     "editor-open"
@@ -420,6 +561,10 @@ document
 
     cardEditorOverlay.classList.remove(
       "hidden"
+    );
+
+    document.body.classList.add(
+      "editor-open"
     );
   });
 
@@ -542,6 +687,10 @@ document
 
     manageOverlay.classList.remove(
       "hidden"
+    );
+
+    document.body.classList.add(
+      "editor-open"
     );
   });
 
@@ -779,6 +928,10 @@ function editCard(card) {
   cardEditorOverlay.classList.remove(
     "hidden"
   );
+
+  document.body.classList.add(
+    "editor-open"
+  );
 }
 
 
@@ -860,6 +1013,10 @@ document
 
     highlightsOverlay.classList.remove(
       "hidden"
+    );
+
+    document.body.classList.add(
+      "editor-open"
     );
   });
 
@@ -958,3 +1115,36 @@ highlightsForm.addEventListener(
     }
   );
 });
+
+
+// =========================
+// ROTATE OVERLAY:
+// CLICK OUTSIDE = CANCEL
+// =========================
+
+plannerRotateOverlay.addEventListener(
+  "click",
+  event => {
+
+    if (event.target !== plannerRotateOverlay) {
+      return;
+    }
+
+    waitingForPlannerPortrait = false;
+
+    plannerRotateOverlay.classList.add(
+      "hidden"
+    );
+
+    document.body.classList.remove(
+      "editor-open"
+    );
+  }
+);
+
+
+// =========================
+// INITIAL ORIENTATION STATE
+// =========================
+
+handleOrientationChange();
