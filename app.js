@@ -201,7 +201,7 @@ setInterval(updateClock, 1000);
 // =========================
 
 const settingsRef =
-  doc(db, "settings", "main");
+  doc(db, "Settings", "main");
 
 
 onSnapshot(settingsRef, snapshot => {
