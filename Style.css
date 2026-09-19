@@ -1,0 +1,890 @@
+/* =========================
+   BREWDASH
+========================= */
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  color: #fff;
+  background: #0b0d0f;
+}
+
+button,
+input,
+textarea {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+/* =========================
+   BACKGROUND
+========================= */
+
+.background {
+  position: fixed;
+  inset: 0;
+  background:
+    url("assets/background.jpg")
+    center center / cover no-repeat;
+  z-index: 0;
+}
+
+.background-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(5, 8, 10, 0.34);
+  z-index: 1;
+}
+
+/* =========================
+   MAIN DASHBOARD
+========================= */
+
+#dashboard {
+  position: relative;
+  z-index: 2;
+  width: 100vw;
+  height: 100dvh;
+
+  padding:
+    max(10px, env(safe-area-inset-top))
+    max(12px, env(safe-area-inset-right))
+    max(10px, env(safe-area-inset-bottom))
+    max(12px, env(safe-area-inset-left));
+
+  display: grid;
+  grid-template-columns: 27% 1fr;
+  gap: 10px;
+}
+
+/* =========================
+   LEFT / CALENDAR
+========================= */
+
+.calendar-section {
+  min-width: 0;
+  min-height: 0;
+
+  display: grid;
+  grid-template-rows: auto 1fr;
+  gap: 8px;
+}
+
+.brand {
+  padding: 1px 5px 0;
+}
+
+.brand h1 {
+  margin: 0;
+  font-size: clamp(17px, 2.1vw, 32px);
+  font-weight: 300;
+  letter-spacing: 0.12em;
+}
+
+.brand-line {
+  width: 95px;
+  height: 2px;
+  margin: 5px 0 4px;
+  background: #e59a55;
+}
+
+.brand p {
+  margin: 0;
+  font-size: clamp(6px, 0.75vw, 11px);
+  letter-spacing: 0.18em;
+  color: rgba(255, 255, 255, 0.78);
+}
+
+.calendar-frame {
+  position: relative;
+  min-height: 0;
+  overflow: hidden;
+
+  background: #fff;
+  border-radius: 10px;
+
+  box-shadow:
+    0 10px 30px rgba(0, 0, 0, 0.25);
+}
+
+#calendarIframe {
+  display: none;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  background: #fff;
+}
+
+#calendarPlaceholder {
+  width: 100%;
+  height: 100%;
+  padding: 16px;
+
+  display: flex;
+  flex-direction: column;
+
+  color: #20242a;
+  background: #fff;
+}
+
+.fake-calendar-title {
+  padding-bottom: 10px;
+  border-bottom: 1px solid #e4e6e8;
+
+  font-size: clamp(12px, 1.2vw, 18px);
+  font-weight: 600;
+}
+
+.fake-calendar-message {
+  flex: 1;
+
+  display: grid;
+  place-items: center;
+
+  color: #8a9097;
+  font-size: clamp(10px, 1vw, 15px);
+}
+
+/* =========================
+   RIGHT / PLANNING
+========================= */
+
+.planning-section {
+  min-width: 0;
+  min-height: 0;
+
+  display: grid;
+  grid-template-rows: auto 1fr;
+  gap: 9px;
+}
+
+/* =========================
+   TOP
+========================= */
+
+.top-area {
+  min-height: 82px;
+
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto auto;
+  gap: 12px;
+  align-items: stretch;
+}
+
+.highlights {
+  min-width: 0;
+
+  padding: 9px 14px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 12px;
+
+  background: rgba(8, 12, 15, 0.72);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+
+  box-shadow:
+    0 10px 25px rgba(0, 0, 0, 0.2);
+}
+
+.highlight-row {
+  min-width: 0;
+
+  display: flex;
+  align-items: center;
+  gap: 9px;
+
+  font-size: clamp(8px, 1vw, 15px);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.highlight-row span:last-child {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.highlight-icon {
+  flex: 0 0 auto;
+  color: #f0a15d;
+  font-size: 8px;
+}
+
+/* =========================
+   DATE / TIME
+========================= */
+
+.date-time {
+  min-width: 105px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  text-align: center;
+}
+
+.current-date {
+  font-size: clamp(7px, 0.75vw, 11px);
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.88);
+}
+
+.current-time {
+  margin: 1px 0;
+  line-height: 1;
+
+  font-size: clamp(27px, 3.8vw, 54px);
+  font-weight: 200;
+  letter-spacing: -0.04em;
+}
+
+.current-week {
+  font-size: clamp(7px, 0.75vw, 11px);
+  color: rgba(255, 255, 255, 0.66);
+}
+
+/* =========================
+   PLAN BUTTON
+========================= */
+
+.planner-button {
+  width: 72px;
+  padding: 4px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+
+  border: 0;
+  color: #fff;
+  background: transparent;
+}
+
+.planner-icon {
+  width: 46px;
+  height: 46px;
+
+  display: grid;
+  place-items: center;
+
+  border: 1.5px solid #f0a15d;
+  border-radius: 50%;
+
+  font-size: 25px;
+  line-height: 1;
+}
+
+.planner-button > span:last-child {
+  font-size: 8px;
+  letter-spacing: 0.08em;
+}
+
+/* =========================
+   WEEK
+========================= */
+
+.week-board {
+  min-height: 0;
+
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 3px;
+}
+
+.day-column {
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+
+  display: flex;
+  flex-direction: column;
+
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 10px;
+
+  background: rgba(8, 12, 15, 0.70);
+
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.day-column.today {
+  border-color: rgba(240, 161, 93, 0.9);
+
+  background:
+    linear-gradient(
+      180deg,
+      rgba(139, 79, 30, 0.58),
+      rgba(48, 29, 18, 0.68)
+    );
+
+  box-shadow:
+    inset 0 0 25px rgba(240, 161, 93, 0.10),
+    0 0 16px rgba(240, 161, 93, 0.08);
+}
+
+.day-header {
+  flex: 0 0 auto;
+
+  padding: 9px 3px 7px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+
+  border-bottom: 1px solid rgba(255, 255, 255, 0.09);
+
+  text-align: center;
+}
+
+.day-header strong {
+  max-width: 100%;
+
+  font-size: clamp(7px, 0.92vw, 14px);
+  font-weight: 500;
+
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.day-date {
+  font-size: clamp(6px, 0.72vw, 11px);
+  color: rgba(255, 255, 255, 0.60);
+}
+
+/* =========================
+   CARDS
+========================= */
+
+.cards {
+  min-height: 0;
+  padding: 5px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+
+  overflow: hidden;
+}
+
+.task-card {
+  padding: 8px 7px;
+
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+
+  background: rgba(255, 255, 255, 0.08);
+
+  box-shadow:
+    0 4px 10px rgba(0, 0, 0, 0.12);
+
+  font-size: clamp(7px, 0.85vw, 13px);
+  line-height: 1.25;
+
+  overflow-wrap: anywhere;
+}
+
+.today .task-card {
+  background: rgba(255, 255, 255, 0.09);
+}
+
+.empty-day {
+  padding: 10px 4px;
+
+  text-align: center;
+  color: rgba(255, 255, 255, 0.26);
+
+  font-size: clamp(6px, 0.7vw, 10px);
+}
+
+/* =========================
+   OVERLAYS
+========================= */
+
+.hidden {
+  display: none !important;
+}
+
+.overlay {
+  position: fixed;
+  z-index: 100;
+  inset: 0;
+
+  padding:
+    max(16px, env(safe-area-inset-top))
+    max(16px, env(safe-area-inset-right))
+    max(16px, env(safe-area-inset-bottom))
+    max(16px, env(safe-area-inset-left));
+
+  display: grid;
+  place-items: center;
+
+  background: rgba(0, 0, 0, 0.72);
+
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+/* =========================
+   PLANNER MENU
+========================= */
+
+.planner-menu,
+.editor-panel {
+  position: relative;
+
+  width: min(92vw, 460px);
+  max-height: 92dvh;
+
+  padding: 25px;
+
+  border: 1px solid rgba(255, 255, 255, 0.17);
+  border-radius: 20px;
+
+  background: rgba(16, 20, 23, 0.96);
+
+  box-shadow:
+    0 25px 80px rgba(0, 0, 0, 0.55);
+}
+
+.planner-menu h2,
+.editor-panel h2 {
+  margin: 0 0 22px;
+
+  font-size: 20px;
+  font-weight: 400;
+  letter-spacing: 0.08em;
+}
+
+.close-button {
+  width: 38px;
+  height: 38px;
+
+  display: grid;
+  place-items: center;
+
+  border: 0;
+  border-radius: 50%;
+
+  color: #fff;
+  background: rgba(255, 255, 255, 0.08);
+
+  font-size: 26px;
+  line-height: 1;
+}
+
+.planner-menu > .close-button {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+}
+
+.planner-menu-buttons {
+  display: grid;
+  gap: 10px;
+}
+
+.planner-menu-buttons button {
+  min-height: 58px;
+  padding: 12px 16px;
+
+  display: flex;
+  align-items: center;
+  gap: 13px;
+
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  border-radius: 12px;
+
+  color: #fff;
+  background: rgba(255, 255, 255, 0.07);
+
+  text-align: left;
+}
+
+.planner-menu-buttons button span {
+  color: #f0a15d;
+  font-size: 22px;
+}
+
+/* =========================
+   EDITOR
+========================= */
+
+.editor-overlay {
+  overflow-y: auto;
+}
+
+.editor-panel {
+  overflow-y: auto;
+}
+
+.editor-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+}
+
+.editor-header h2 {
+  margin: 0;
+}
+
+#cardForm,
+#highlightsForm {
+  margin-top: 24px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.field-label,
+#highlightsForm label {
+  margin-top: 5px;
+
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  color: rgba(255, 255, 255, 0.58);
+}
+
+.day-selector {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 5px;
+}
+
+.day-selector label {
+  position: relative;
+}
+
+.day-selector input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.day-selector span {
+  height: 40px;
+
+  display: grid;
+  place-items: center;
+
+  border: 1px solid rgba(255, 255, 255, 0.13);
+  border-radius: 8px;
+
+  background: rgba(255, 255, 255, 0.05);
+
+  font-size: 11px;
+}
+
+.day-selector input:checked + span {
+  border-color: #f0a15d;
+  color: #fff;
+  background: rgba(240, 161, 93, 0.20);
+}
+
+textarea,
+#highlightsForm input {
+  width: 100%;
+
+  padding: 12px;
+
+  border: 1px solid rgba(255, 255, 255, 0.13);
+  border-radius: 10px;
+  outline: none;
+
+  color: #fff;
+  background: rgba(255, 255, 255, 0.07);
+}
+
+textarea {
+  resize: vertical;
+  min-height: 120px;
+}
+
+textarea:focus,
+#highlightsForm input:focus {
+  border-color: #f0a15d;
+}
+
+.save-button {
+  min-height: 48px;
+  margin-top: 10px;
+
+  border: 0;
+  border-radius: 10px;
+
+  color: #15100c;
+  background: #f0a15d;
+
+  font-weight: 700;
+  letter-spacing: 0.07em;
+}
+
+/* =========================
+   MANAGE
+========================= */
+
+.manage-panel {
+  width: min(94vw, 620px);
+}
+
+#manageCardsList {
+  margin-top: 20px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.manage-day-title {
+  margin: 8px 0 5px;
+
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  color: #f0a15d;
+}
+
+.manage-card {
+  padding: 12px;
+
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  border-radius: 11px;
+
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.manage-card.paused {
+  opacity: 0.45;
+}
+
+.manage-card-text {
+  margin-bottom: 10px;
+
+  font-size: 14px;
+  line-height: 1.35;
+}
+
+.manage-actions {
+  display: flex;
+  gap: 6px;
+}
+
+.manage-actions button {
+  padding: 7px 10px;
+
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  border-radius: 7px;
+
+  color: #fff;
+  background: rgba(255, 255, 255, 0.07);
+
+  font-size: 10px;
+}
+
+.manage-actions .delete {
+  color: #ff9a9a;
+}
+
+/* =========================
+   ROTATE MESSAGE
+========================= */
+
+#rotateMessage {
+  display: none;
+}
+
+/* =========================
+   IPHONE LANDSCAPE
+========================= */
+
+@media (orientation: landscape) and (max-height: 500px) {
+
+  #dashboard {
+    gap: 7px;
+    padding-top: max(5px, env(safe-area-inset-top));
+    padding-bottom: max(5px, env(safe-area-inset-bottom));
+  }
+
+  .calendar-section {
+    gap: 5px;
+  }
+
+  .brand h1 {
+    font-size: 17px;
+  }
+
+  .brand-line {
+    width: 65px;
+    margin: 2px 0 2px;
+  }
+
+  .brand p {
+    font-size: 6px;
+  }
+
+  .planning-section {
+    gap: 6px;
+  }
+
+  .top-area {
+    min-height: 66px;
+    gap: 5px;
+  }
+
+  .highlights {
+    padding: 6px 9px;
+    gap: 3px;
+  }
+
+  .highlight-row {
+    font-size: 8px;
+    gap: 6px;
+  }
+
+  .date-time {
+    min-width: 80px;
+  }
+
+  .current-date,
+  .current-week {
+    font-size: 6px;
+  }
+
+  .current-time {
+    font-size: 29px;
+  }
+
+  .planner-button {
+    width: 55px;
+  }
+
+  .planner-icon {
+    width: 36px;
+    height: 36px;
+    font-size: 20px;
+  }
+
+  .planner-button > span:last-child {
+    font-size: 6px;
+  }
+
+  .day-header {
+    padding: 6px 2px 5px;
+  }
+
+  .day-header strong {
+    font-size: 7px;
+  }
+
+  .day-date {
+    font-size: 6px;
+  }
+
+  .cards {
+    padding: 3px;
+    gap: 3px;
+  }
+
+  .task-card {
+    padding: 6px 5px;
+    border-radius: 6px;
+    font-size: 7px;
+  }
+}
+
+/* =========================
+   PORTRAIT
+   Dashboarden ber användaren
+   vrida telefonen.
+   Editor får däremot användas.
+========================= */
+
+@media (orientation: portrait) and (max-width: 700px) {
+
+  #dashboard {
+    display: none;
+  }
+
+  #rotateMessage {
+    position: fixed;
+    z-index: 50;
+    inset: 0;
+
+    display: grid;
+    place-items: center;
+
+    padding: 30px;
+
+    text-align: center;
+    color: #fff;
+    background: #0b0d0f;
+  }
+
+  #rotateMessage > div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
+
+  #rotateMessage span {
+    font-size: 50px;
+    color: #f0a15d;
+  }
+
+  #rotateMessage strong {
+    font-size: 24px;
+  }
+
+  #rotateMessage p {
+    margin: 0;
+    color: rgba(255, 255, 255, 0.58);
+  }
+
+  body.editor-open #rotateMessage {
+    display: none;
+  }
+
+  body.editor-open #dashboard {
+    display: none;
+  }
+
+  .overlay {
+    align-items: start;
+    overflow-y: auto;
+  }
+
+  .planner-menu,
+  .editor-panel,
+  .manage-panel {
+    width: 100%;
+    max-width: none;
+    max-height: none;
+
+    margin: auto 0;
+    border-radius: 18px;
+  }
+}
