@@ -914,17 +914,19 @@ textarea:focus,
   }
 
   .cards {
-    padding: 3px;
-    gap: 3px;
-  }
+  padding: 7px 5px;
+  gap: 7px;
+}
 
-  .task-card {
-    padding: 6px 5px;
+.task-card {
+  padding: 0 0 0 10px;
+  font-size: 8px;
+}
 
-    border-radius: 6px;
-
-    font-size: 7px;
-  }
+.task-card::before {
+  width: 4px;
+  height: 4px;
+}
 }
 
 
