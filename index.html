@@ -2,6 +2,7 @@
 <html lang="sv">
 <head>
   <meta charset="UTF-8">
+
   <meta name="viewport"
         content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 
@@ -18,6 +19,7 @@
   <div class="background"></div>
   <div class="background-overlay"></div>
 
+
   <!-- =========================
        DASHBOARD
   ========================== -->
@@ -33,20 +35,24 @@
       </div>
 
       <div class="calendar-frame">
-        <!-- Kalenderns riktiga iframe läggs in senare -->
+
         <div id="calendarPlaceholder">
-          <div class="fake-calendar-title">Dagens kalender</div>
+          <div class="fake-calendar-title">
+            Dagens kalender
+          </div>
+
           <div class="fake-calendar-message">
             Kalender kopplas in här
           </div>
         </div>
 
         <iframe
-  id="calendarIframe"
-  title="Kalender"
-  src="https://calendar.google.com/calendar/embed?src=sebastian.bonini%40gmail.com&ctz=Europe%2FStockholm&mode=AGENDA"
-  loading="eager">
-</iframe>
+          id="calendarIframe"
+          title="Kalender"
+          src="https://calendar.google.com/calendar/embed?src=sebastian.bonini%40gmail.com&ctz=Europe%2FStockholm&mode=AGENDA"
+          loading="eager">
+        </iframe>
+
       </div>
 
     </section>
@@ -63,97 +69,161 @@
 
           <div class="highlight-row">
             <span class="highlight-icon">●</span>
-            <span id="highlight1">Ingen information ännu</span>
+            <span id="highlight1">
+              Ingen information ännu
+            </span>
           </div>
 
           <div class="highlight-row">
             <span class="highlight-icon">●</span>
-            <span id="highlight2">Ingen information ännu</span>
+            <span id="highlight2">
+              Ingen information ännu
+            </span>
           </div>
 
           <div class="highlight-row">
             <span class="highlight-icon">●</span>
-            <span id="highlight3">Ingen information ännu</span>
+            <span id="highlight3">
+              Ingen information ännu
+            </span>
           </div>
 
         </div>
+
 
         <!-- KLOCKA / DATUM -->
         <div class="date-time">
 
-          <div id="currentDate" class="current-date"></div>
+          <div
+            id="currentDate"
+            class="current-date">
+          </div>
 
-          <div id="currentTime" class="current-time">--:--</div>
+          <div
+            id="currentTime"
+            class="current-time">
+            --:--
+          </div>
 
-          <div id="currentWeek" class="current-week"></div>
+          <div
+            id="currentWeek"
+            class="current-week">
+          </div>
 
         </div>
 
+
         <!-- PLANERA -->
-        <button id="openPlanner" class="planner-button" type="button">
-          <span class="planner-icon">✎</span>
-          <span>PLANERA</span>
+        <button
+          id="openPlanner"
+          class="planner-button"
+          type="button">
+
+          <span class="planner-icon">
+            ✎
+          </span>
+
+          <span>
+            PLANERA
+          </span>
+
         </button>
 
       </header>
 
 
       <!-- VECKA -->
-      <section id="weekBoard" class="week-board">
+      <section
+        id="weekBoard"
+        class="week-board">
 
-        <div class="day-column" data-day="mon">
+        <div
+          class="day-column"
+          data-day="mon">
+
           <div class="day-header">
             <strong>MÅNDAG</strong>
             <span class="day-date"></span>
           </div>
+
           <div class="cards"></div>
         </div>
 
-        <div class="day-column" data-day="tue">
+
+        <div
+          class="day-column"
+          data-day="tue">
+
           <div class="day-header">
             <strong>TISDAG</strong>
             <span class="day-date"></span>
           </div>
+
           <div class="cards"></div>
         </div>
 
-        <div class="day-column" data-day="wed">
+
+        <div
+          class="day-column"
+          data-day="wed">
+
           <div class="day-header">
             <strong>ONSDAG</strong>
             <span class="day-date"></span>
           </div>
+
           <div class="cards"></div>
         </div>
 
-        <div class="day-column" data-day="thu">
+
+        <div
+          class="day-column"
+          data-day="thu">
+
           <div class="day-header">
             <strong>TORSDAG</strong>
             <span class="day-date"></span>
           </div>
+
           <div class="cards"></div>
         </div>
 
-        <div class="day-column" data-day="fri">
+
+        <div
+          class="day-column"
+          data-day="fri">
+
           <div class="day-header">
             <strong>FREDAG</strong>
             <span class="day-date"></span>
           </div>
+
           <div class="cards"></div>
         </div>
 
-        <div class="day-column" data-day="sat">
+
+        <div
+          class="day-column"
+          data-day="sat">
+
           <div class="day-header">
             <strong>LÖRDAG</strong>
             <span class="day-date"></span>
           </div>
+
           <div class="cards"></div>
         </div>
 
-        <div class="day-column" data-day="sun">
+
+        <div
+          class="day-column"
+          data-day="sun">
+
           <div class="day-header">
             <strong>SÖNDAG</strong>
             <span class="day-date"></span>
           </div>
+
           <div class="cards"></div>
         </div>
 
@@ -165,9 +235,50 @@
 
 
   <!-- =========================
+       VRID TILL STÅENDE
+       Visas efter PLANERA på mobil
+  ========================== -->
+  <div
+    id="plannerRotateOverlay"
+    class="overlay hidden">
+
+    <div class="rotate-planner-panel">
+
+      <button
+        id="cancelPlannerRotate"
+        class="close-button"
+        type="button"
+        aria-label="Avbryt">
+        ×
+      </button>
+
+      <div class="rotate-planner-content">
+
+        <span class="rotate-planner-icon">
+          ↻
+        </span>
+
+        <strong>
+          Vrid telefonen till stående
+        </strong>
+
+        <p>
+          Planering och redigering görs i stående läge.
+        </p>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- =========================
        PLANERA – START
   ========================== -->
-  <div id="plannerOverlay" class="overlay hidden">
+  <div
+    id="plannerOverlay"
+    class="overlay hidden">
 
     <div class="planner-menu">
 
@@ -179,23 +290,39 @@
         ×
       </button>
 
-      <h2>PLANERING</h2>
+      <h2>
+        PLANERING
+      </h2>
 
       <div class="planner-menu-buttons">
 
-        <button id="createCardButton" type="button">
+        <button
+          id="createCardButton"
+          type="button">
+
           <span>＋</span>
           SKAPA NYTT
+
         </button>
 
-        <button id="manageCardsButton" type="button">
+
+        <button
+          id="manageCardsButton"
+          type="button">
+
           <span>✎</span>
           ÄNDRA / HANTERA
+
         </button>
 
-        <button id="editHighlightsButton" type="button">
+
+        <button
+          id="editHighlightsButton"
+          type="button">
+
           <span>☰</span>
           GENERELL INFORMATION
+
         </button>
 
       </div>
@@ -208,71 +335,101 @@
   <!-- =========================
        SKAPA / ÄNDRA KORT
   ========================== -->
-  <div id="cardEditorOverlay" class="overlay editor-overlay hidden">
+  <div
+    id="cardEditorOverlay"
+    class="overlay editor-overlay hidden">
 
     <div class="editor-panel">
 
       <div class="editor-header">
-        <h2 id="cardEditorTitle">NYTT KORT</h2>
+
+        <h2 id="cardEditorTitle">
+          NYTT KORT
+        </h2>
 
         <button
           id="closeCardEditor"
           class="close-button"
-          type="button">
+          type="button"
+          aria-label="Stäng">
           ×
         </button>
+
       </div>
+
 
       <form id="cardForm">
 
-        <input id="editingCardId" type="hidden">
+        <input
+          id="editingCardId"
+          type="hidden">
+
 
         <label class="field-label">
           DAG
         </label>
 
+
         <div class="day-selector">
 
           <label>
-            <input type="checkbox" value="mon">
+            <input
+              type="checkbox"
+              value="mon">
             <span>MÅ</span>
           </label>
 
           <label>
-            <input type="checkbox" value="tue">
+            <input
+              type="checkbox"
+              value="tue">
             <span>TI</span>
           </label>
 
           <label>
-            <input type="checkbox" value="wed">
+            <input
+              type="checkbox"
+              value="wed">
             <span>ON</span>
           </label>
 
           <label>
-            <input type="checkbox" value="thu">
+            <input
+              type="checkbox"
+              value="thu">
             <span>TO</span>
           </label>
 
           <label>
-            <input type="checkbox" value="fri">
+            <input
+              type="checkbox"
+              value="fri">
             <span>FR</span>
           </label>
 
           <label>
-            <input type="checkbox" value="sat">
+            <input
+              type="checkbox"
+              value="sat">
             <span>LÖ</span>
           </label>
 
           <label>
-            <input type="checkbox" value="sun">
+            <input
+              type="checkbox"
+              value="sun">
             <span>SÖ</span>
           </label>
 
         </div>
 
-        <label class="field-label" for="cardText">
+
+        <label
+          class="field-label"
+          for="cardText">
           TEXT
         </label>
+
 
         <textarea
           id="cardText"
@@ -281,7 +438,10 @@
           required>
         </textarea>
 
-        <button class="save-button" type="submit">
+
+        <button
+          class="save-button"
+          type="submit">
           SPARA
         </button>
 
@@ -295,22 +455,31 @@
   <!-- =========================
        HANTERA KORT
   ========================== -->
-  <div id="manageOverlay" class="overlay editor-overlay hidden">
+  <div
+    id="manageOverlay"
+    class="overlay editor-overlay hidden">
 
     <div class="editor-panel manage-panel">
 
       <div class="editor-header">
-        <h2>ÄNDRA / HANTERA</h2>
+
+        <h2>
+          ÄNDRA / HANTERA
+        </h2>
 
         <button
           id="closeManage"
           class="close-button"
-          type="button">
+          type="button"
+          aria-label="Stäng">
           ×
         </button>
+
       </div>
 
-      <div id="manageCardsList"></div>
+
+      <div id="manageCardsList">
+      </div>
 
     </div>
 
@@ -320,20 +489,28 @@
   <!-- =========================
        GENERELL INFORMATION
   ========================== -->
-  <div id="highlightsOverlay" class="overlay editor-overlay hidden">
+  <div
+    id="highlightsOverlay"
+    class="overlay editor-overlay hidden">
 
     <div class="editor-panel">
 
       <div class="editor-header">
-        <h2>GENERELL INFORMATION</h2>
+
+        <h2>
+          GENERELL INFORMATION
+        </h2>
 
         <button
           id="closeHighlights"
           class="close-button"
-          type="button">
+          type="button"
+          aria-label="Stäng">
           ×
         </button>
+
       </div>
+
 
       <form id="highlightsForm">
 
@@ -346,6 +523,7 @@
           type="text"
           maxlength="120">
 
+
         <label for="highlightInput2">
           RAD 2
         </label>
@@ -354,6 +532,7 @@
           id="highlightInput2"
           type="text"
           maxlength="120">
+
 
         <label for="highlightInput3">
           RAD 3
@@ -364,7 +543,10 @@
           type="text"
           maxlength="120">
 
-        <button class="save-button" type="submit">
+
+        <button
+          class="save-button"
+          type="submit">
           SPARA
         </button>
 
@@ -377,17 +559,31 @@
 
   <!-- =========================
        ORIENTATION MESSAGE
+       Normal portrait-vy
   ========================== -->
   <div id="rotateMessage">
+
     <div>
+
       <span>↻</span>
-      <strong>Vrid telefonen</strong>
-      <p>Dashboarden är gjord för liggande läge.</p>
+
+      <strong>
+        Vrid telefonen
+      </strong>
+
+      <p>
+        Dashboarden är gjord för liggande läge.
+      </p>
+
     </div>
+
   </div>
 
 
-  <script type="module" src="app.js"></script>
+  <script
+    type="module"
+    src="app.js">
+  </script>
 
 </body>
 </html>
