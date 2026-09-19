@@ -919,11 +919,15 @@ textarea:focus,
 }
 
 .task-card {
-  padding: 0 0 0 10px;
+  padding: 0 2px 0 10px;
   font-size: 8px;
+  line-height: 1.35;
 }
 
 .task-card::before {
+  left: 0;
+  top: 0.48em;
+
   width: 4px;
   height: 4px;
 }
