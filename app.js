@@ -1148,3 +1148,16 @@ plannerRotateOverlay.addEventListener(
 // =========================
 
 handleOrientationChange();
+
+/* =========================
+   CALENDAR AUTO REFRESH
+========================= */
+
+setInterval(() => {
+  const calendarIframe = document.getElementById("calendarIframe");
+
+  if (calendarIframe && calendarIframe.src) {
+    const currentSrc = calendarIframe.src;
+    calendarIframe.src = currentSrc;
+  }
+}, 60000);
