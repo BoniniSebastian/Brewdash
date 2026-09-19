@@ -793,6 +793,16 @@ textarea:focus,
   display: none;
 }
 
+.rotate-brand {
+  margin-bottom: 18px;
+
+  font-size: 28px;
+  font-weight: 300;
+  letter-spacing: 0.18em;
+
+  color: #fff;
+}
+
 
 /* =========================
    IPHONE LANDSCAPE
