@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+  <title>Brewdash</title>
+
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <div class="background"></div>
+  <div class="background-overlay"></div>
+
+  <!-- =========================
+       DASHBOARD
+  ========================== -->
+  <main id="dashboard">
+
+    <!-- VÄNSTER: KALENDER -->
+    <section class="calendar-section">
+
+      <div class="brand">
+        <h1>DASHBOARD</h1>
+        <div class="brand-line"></div>
+        <p>BRYGGERI · BRÄNNERI · MUSTERI</p>
+      </div>
+
+      <div class="calendar-frame">
+        <!-- Kalenderns riktiga iframe läggs in senare -->
+        <div id="calendarPlaceholder">
+          <div class="fake-calendar-title">Dagens kalender</div>
+          <div class="fake-calendar-message">
+            Kalender kopplas in här
+          </div>
+        </div>
+
+        <iframe
+          id="calendarIframe"
+          title="Kalender"
+          src=""
+          loading="eager">
+        </iframe>
+      </div>
+
+    </section>
+
+
+    <!-- HÖGER -->
+    <section class="planning-section">
+
+      <!-- TOPP -->
+      <header class="top-area">
+
+        <!-- TRE GENERELLA RADER -->
+        <div class="highlights">
+
+          <div class="highlight-row">
+            <span class="highlight-icon">●</span>
+            <span id="highlight1">Ingen information ännu</span>
+          </div>
+
+          <div class="highlight-row">
+            <span class="highlight-icon">●</span>
+            <span id="highlight2">Ingen information ännu</span>
+          </div>
+
+          <div class="highlight-row">
+            <span class="highlight-icon">●</span>
+            <span id="highlight3">Ingen information ännu</span>
+          </div>
+
+        </div>
+
+        <!-- KLOCKA / DATUM -->
+        <div class="date-time">
+
+          <div id="currentDate" class="current-date"></div>
+
+          <div id="currentTime" class="current-time">--:--</div>
+
+          <div id="currentWeek" class="current-week"></div>
+
+        </div>
+
+        <!-- PLANERA -->
+        <button id="openPlanner" class="planner-button" type="button">
+          <span class="planner-icon">✎</span>
+          <span>PLANERA</span>
+        </button>
+
+      </header>
+
+
+      <!-- VECKA -->
+      <section id="weekBoard" class="week-board">
+
+        <div class="day-column" data-day="mon">
+          <div class="day-header">
+            <strong>MÅNDAG</strong>
+            <span class="day-date"></span>
+          </div>
+          <div class="cards"></div>
+        </div>
+
+        <div class="day-column" data-day="tue">
+          <div class="day-header">
+            <strong>TISDAG</strong>
+            <span class="day-date"></span>
+          </div>
+          <div class="cards"></div>
+        </div>
+
+        <div class="day-column" data-day="wed">
+          <div class="day-header">
+            <strong>ONSDAG</strong>
+            <span class="day-date"></span>
+          </div>
+          <div class="cards"></div>
+        </div>
+
+        <div class="day-column" data-day="thu">
+          <div class="day-header">
+            <strong>TORSDAG</strong>
+            <span class="day-date"></span>
+          </div>
+          <div class="cards"></div>
+        </div>
+
+        <div class="day-column" data-day="fri">
+          <div class="day-header">
+            <strong>FREDAG</strong>
+            <span class="day-date"></span>
+          </div>
+          <div class="cards"></div>
+        </div>
+
+        <div class="day-column" data-day="sat">
+          <div class="day-header">
+            <strong>LÖRDAG</strong>
+            <span class="day-date"></span>
+          </div>
+          <div class="cards"></div>
+        </div>
+
+        <div class="day-column" data-day="sun">
+          <div class="day-header">
+            <strong>SÖNDAG</strong>
+            <span class="day-date"></span>
+          </div>
+          <div class="cards"></div>
+        </div>
+
+      </section>
+
+    </section>
+
+  </main>
+
+
+  <!-- =========================
+       PLANERA – START
+  ========================== -->
+  <div id="plannerOverlay" class="overlay hidden">
+
+    <div class="planner-menu">
+
+      <button
+        id="closePlanner"
+        class="close-button"
+        type="button"
+        aria-label="Stäng">
+        ×
+      </button>
+
+      <h2>PLANERING</h2>
+
+      <div class="planner-menu-buttons">
+
+        <button id="createCardButton" type="button">
+          <span>＋</span>
+          SKAPA NYTT
+        </button>
+
+        <button id="manageCardsButton" type="button">
+          <span>✎</span>
+          ÄNDRA / HANTERA
+        </button>
+
+        <button id="editHighlightsButton" type="button">
+          <span>☰</span>
+          GENERELL INFORMATION
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- =========================
+       SKAPA / ÄNDRA KORT
+  ========================== -->
+  <div id="cardEditorOverlay" class="overlay editor-overlay hidden">
+
+    <div class="editor-panel">
+
+      <div class="editor-header">
+        <h2 id="cardEditorTitle">NYTT KORT</h2>
+
+        <button
+          id="closeCardEditor"
+          class="close-button"
+          type="button">
+          ×
+        </button>
+      </div>
+
+      <form id="cardForm">
+
+        <input id="editingCardId" type="hidden">
+
+        <label class="field-label">
+          DAG
+        </label>
+
+        <div class="day-selector">
+
+          <label>
+            <input type="checkbox" value="mon">
+            <span>MÅ</span>
+          </label>
+
+          <label>
+            <input type="checkbox" value="tue">
+            <span>TI</span>
+          </label>
+
+          <label>
+            <input type="checkbox" value="wed">
+            <span>ON</span>
+          </label>
+
+          <label>
+            <input type="checkbox" value="thu">
+            <span>TO</span>
+          </label>
+
+          <label>
+            <input type="checkbox" value="fri">
+            <span>FR</span>
+          </label>
+
+          <label>
+            <input type="checkbox" value="sat">
+            <span>LÖ</span>
+          </label>
+
+          <label>
+            <input type="checkbox" value="sun">
+            <span>SÖ</span>
+          </label>
+
+        </div>
+
+        <label class="field-label" for="cardText">
+          TEXT
+        </label>
+
+        <textarea
+          id="cardText"
+          rows="5"
+          placeholder="Skriv vad som ska visas på kortet..."
+          required>
+        </textarea>
+
+        <button class="save-button" type="submit">
+          SPARA
+        </button>
+
+      </form>
+
+    </div>
+
+  </div>
+
+
+  <!-- =========================
+       HANTERA KORT
+  ========================== -->
+  <div id="manageOverlay" class="overlay editor-overlay hidden">
+
+    <div class="editor-panel manage-panel">
+
+      <div class="editor-header">
+        <h2>ÄNDRA / HANTERA</h2>
+
+        <button
+          id="closeManage"
+          class="close-button"
+          type="button">
+          ×
+        </button>
+      </div>
+
+      <div id="manageCardsList"></div>
+
+    </div>
+
+  </div>
+
+
+  <!-- =========================
+       GENERELL INFORMATION
+  ========================== -->
+  <div id="highlightsOverlay" class="overlay editor-overlay hidden">
+
+    <div class="editor-panel">
+
+      <div class="editor-header">
+        <h2>GENERELL INFORMATION</h2>
+
+        <button
+          id="closeHighlights"
+          class="close-button"
+          type="button">
+          ×
+        </button>
+      </div>
+
+      <form id="highlightsForm">
+
+        <label for="highlightInput1">
+          RAD 1
+        </label>
+
+        <input
+          id="highlightInput1"
+          type="text"
+          maxlength="120">
+
+        <label for="highlightInput2">
+          RAD 2
+        </label>
+
+        <input
+          id="highlightInput2"
+          type="text"
+          maxlength="120">
+
+        <label for="highlightInput3">
+          RAD 3
+        </label>
+
+        <input
+          id="highlightInput3"
+          type="text"
+          maxlength="120">
+
+        <button class="save-button" type="submit">
+          SPARA
+        </button>
+
+      </form>
+
+    </div>
+
+  </div>
+
+
+  <!-- =========================
+       ORIENTATION MESSAGE
+  ========================== -->
+  <div id="rotateMessage">
+    <div>
+      <span>↻</span>
+      <strong>Vrid telefonen</strong>
+      <p>Dashboarden är gjord för liggande läge.</p>
+    </div>
+  </div>
+
+
+  <script type="module" src="app.js"></script>
+
+</body>
+</html>
