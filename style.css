@@ -35,7 +35,7 @@ button {
   position: fixed;
   inset: 0;
   background:
-    url("Assets/background.png")
+    url("./Assets/background.png")
     center center / cover no-repeat;
   z-index: 0;
 }
