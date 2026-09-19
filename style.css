@@ -34,17 +34,15 @@ button {
 .background {
   position: fixed;
   inset: 0;
-  background:
-    url("./Assets/background.jpg")
-    center center / cover no-repeat;
+  background-image: url("./Assets/background.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
   z-index: 0;
 }
 
 .background-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(5, 8, 10, 0.34);
-  z-index: 1;
+  display: none;
 }
 
 /* =========================
