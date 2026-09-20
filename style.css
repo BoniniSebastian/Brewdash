@@ -316,13 +316,15 @@ button {
 
 /* =========================
    WEEK
+   7 LIGGANDE DAGSRADER
 ========================= */
 
 .week-board {
   min-height: 0;
 
   display: grid;
-  grid-template-columns: repeat(7, minmax(0, 1fr));
+  grid-template-columns: 1fr;
+  grid-template-rows: repeat(7, minmax(0, 1fr));
   gap: 3px;
 }
 
@@ -331,8 +333,8 @@ button {
   min-height: 0;
   overflow: hidden;
 
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: clamp(88px, 13vw, 145px) minmax(0, 1fr);
 
   border: 1px solid rgba(255, 255, 255, 0.16);
   border-radius: 10px;
@@ -348,7 +350,7 @@ button {
 
   background:
     linear-gradient(
-      180deg,
+      90deg,
       rgba(139, 79, 30, 0.58),
       rgba(48, 29, 18, 0.68)
     );
@@ -358,48 +360,63 @@ button {
     0 0 16px rgba(240, 161, 93, 0.08);
 }
 
-.day-header {
-  flex: 0 0 auto;
 
-  padding: 9px 3px 7px;
+/* =========================
+   DAY LABEL
+========================= */
+
+.day-header {
+  min-width: 0;
+
+  padding: 8px 12px;
 
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
+  justify-content: center;
   gap: 2px;
 
-  border-bottom: 1px solid rgba(255, 255, 255, 0.09);
+  border-right: 1px solid rgba(255, 255, 255, 0.13);
 
-  text-align: center;
+  text-align: left;
 }
 
 .day-header strong {
   max-width: 100%;
 
-  font-size: clamp(7px, 0.92vw, 14px);
+  font-size: clamp(8px, 0.9vw, 14px);
   font-weight: 500;
+  letter-spacing: 0.04em;
 
   white-space: nowrap;
   overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .day-date {
-  font-size: clamp(6px, 0.72vw, 11px);
+  font-size: clamp(7px, 0.72vw, 11px);
   color: rgba(255, 255, 255, 0.60);
 }
 
 
 /* =========================
    TASK LIST
+   WRAPPAR AUTOMATISKT
 ========================= */
 
 .cards {
+  min-width: 0;
   min-height: 0;
-  padding: 10px 8px;
+
+  padding: 7px 10px;
 
   display: flex;
-  flex-direction: column;
-  gap: 10px;
+  flex-wrap: wrap;
+  align-content: center;
+  align-items: center;
+
+  column-gap: 0;
+  row-gap: 5px;
 
   overflow: hidden;
 }
@@ -407,7 +424,11 @@ button {
 .task-card {
   position: relative;
 
-  padding: 0 0 0 12px;
+  flex: 0 1 auto;
+
+  max-width: min(280px, 42%);
+
+  padding: 0 12px;
 
   border: 0;
   border-radius: 0;
@@ -423,19 +444,22 @@ button {
   overflow-wrap: anywhere;
 }
 
+
+/* Separator mellan aktiviteter */
+
 .task-card::before {
-  content: "";
+  content: "|";
 
   position: absolute;
   left: 0;
-  top: 0.48em;
+  top: 50%;
 
-  width: 5px;
-  height: 5px;
+  transform: translateY(-50%);
 
-  border-radius: 50%;
+  color: rgba(255, 255, 255, 0.30);
 
-  background: #f0a15d;
+  font-size: 1em;
+  font-weight: 300;
 }
 
 .today .task-card {
@@ -443,12 +467,15 @@ button {
 }
 
 .empty-day {
-  padding: 10px 4px;
+  width: 100%;
+  padding: 0 12px;
 
-  text-align: center;
+  display: flex;
+  align-items: center;
+
   color: rgba(255, 255, 255, 0.20);
 
-  font-size: clamp(6px, 0.7vw, 10px);
+  font-size: clamp(7px, 0.7vw, 10px);
 }
 
 
@@ -904,36 +931,47 @@ textarea:focus,
     font-size: 6px;
   }
 
+
+  /* Smalare dagdel på telefon */
+
+  .day-column {
+    grid-template-columns: 68px minmax(0, 1fr);
+  }
+
   .day-header {
-    padding: 6px 2px 5px;
+    padding: 4px 6px;
   }
 
   .day-header strong {
     font-size: 7px;
+    letter-spacing: 0;
   }
 
   .day-date {
     font-size: 6px;
   }
 
+
+  /* Aktiviteter */
+
   .cards {
-  padding: 7px 5px;
-  gap: 7px;
-}
+    padding: 4px 6px;
+    row-gap: 2px;
+  }
 
-.task-card {
-  padding: 0 2px 0 10px;
-  font-size: 8px;
-  line-height: 1.35;
-}
+  .task-card {
+    max-width: min(190px, 45%);
 
-.task-card::before {
-  left: 0;
-  top: 0.48em;
+    padding: 0 8px;
 
-  width: 4px;
-  height: 4px;
-}
+    font-size: 8px;
+    line-height: 1.2;
+  }
+
+  .empty-day {
+    padding: 0 8px;
+    font-size: 7px;
+  }
 }
 
 
