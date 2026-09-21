@@ -316,7 +316,7 @@ button {
 
 /* =========================
    WEEK
-   7 LIGGANDE DAGSRADER
+   5 LIGGANDE DAGSRADER
 ========================= */
 
 .week-board {
@@ -324,9 +324,20 @@ button {
 
   display: grid;
   grid-template-columns: 1fr;
-  grid-template-rows: repeat(7, minmax(0, 1fr));
+  grid-template-rows: repeat(5, minmax(0, 1fr));
   gap: 3px;
 }
+
+
+/* Lördag och söndag finns kvar
+   i systemet men visas inte
+   på dashboarden */
+
+.day-column[data-day="sat"],
+.day-column[data-day="sun"] {
+  display: none;
+}
+
 
 .day-column {
   min-width: 0;
@@ -861,7 +872,7 @@ textarea:focus,
     gap: 7px;
 
     padding-top:
-      max(5px, env(safe-area-inset-top));
+      max(12px, env(safe-area-inset-top));
 
     padding-bottom:
       max(5px, env(safe-area-inset-bottom));
@@ -956,7 +967,7 @@ textarea:focus,
 
   .cards {
     padding: 4px 6px;
-    row-gap: 2px;
+    row-gap: 3px;
   }
 
   .task-card {
@@ -965,7 +976,7 @@ textarea:focus,
     padding: 0 8px;
 
     font-size: 8px;
-    line-height: 1.2;
+    line-height: 1.25;
   }
 
   .empty-day {
@@ -977,85 +988,253 @@ textarea:focus,
 
 /* =========================
    MOBILE PORTRAIT
-
-   Normalt:
-   "Vrid telefonen"
-
-   Under planering:
-   planeringsvyn får använda
-   hela portrait-skärmen.
+   DASHBOARD + VECKA + KALENDER
 ========================= */
 
 @media (orientation: portrait) and (max-width: 700px) {
 
-  #dashboard {
-    display: none;
+  html,
+  body {
+    height: auto;
+    min-height: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
   }
 
 
   /* =========================
-     NORMAL PORTRAIT MESSAGE
+     DASHBOARD
   ========================= */
 
-  #rotateMessage {
-    position: fixed;
-    z-index: 50;
-    inset: 0;
-
-    display: grid;
-    place-items: center;
+  #dashboard {
+    width: 100%;
+    height: auto;
+    min-height: 100dvh;
 
     padding:
-      max(30px, env(safe-area-inset-top))
-      max(24px, env(safe-area-inset-right))
-      max(30px, env(safe-area-inset-bottom))
-      max(24px, env(safe-area-inset-left));
+      calc(env(safe-area-inset-top) + 20px)
+      14px
+      calc(env(safe-area-inset-bottom) + 24px);
 
-    text-align: center;
-    color: #fff;
-
-    background: #0b0d0f;
-  }
-
-  #rotateMessage > div {
     display: flex;
     flex-direction: column;
+    gap: 14px;
+  }
+
+
+  /* =========================
+     PLANERING FÖRST
+  ========================= */
+
+  .planning-section {
+    order: 1;
+
+    width: 100%;
+
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+
+  /* =========================
+     TOPP
+  ========================= */
+
+  .top-area {
+    min-height: 0;
+
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+
+    grid-template-areas:
+      "highlights highlights"
+      "datetime planner";
+
+    gap: 12px;
     align-items: center;
+  }
+
+  .highlights {
+    grid-area: highlights;
+
+    padding: 12px 14px;
+    gap: 6px;
+  }
+
+  .highlight-row {
+    font-size: 11px;
+    gap: 8px;
+  }
+
+  .highlight-icon {
+    font-size: 7px;
+  }
+
+
+  /* =========================
+     DATUM / KLOCKA
+  ========================= */
+
+  .date-time {
+    grid-area: datetime;
+
+    min-width: 0;
+
+    align-items: flex-start;
+
+    text-align: left;
+  }
+
+  .current-date {
+    font-size: 9px;
+  }
+
+  .current-time {
+    margin: 3px 0;
+
+    font-size: 38px;
+  }
+
+  .current-week {
+    font-size: 9px;
+  }
+
+
+  /* =========================
+     PLANERA
+  ========================= */
+
+  .planner-button {
+    grid-area: planner;
+
+    width: 64px;
+  }
+
+  .planner-icon {
+    width: 44px;
+    height: 44px;
+
+    font-size: 23px;
+  }
+
+  .planner-button > span:last-child {
+    font-size: 7px;
+  }
+
+
+  /* =========================
+     VECKA MÅN–FRE
+  ========================= */
+
+  .week-board {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .day-column {
+    min-height: 64px;
+
+    display: grid;
+    grid-template-columns: 86px minmax(0, 1fr);
+
+    overflow: visible;
+  }
+
+  .day-header {
+    padding: 8px;
+
+    justify-content: center;
+  }
+
+  .day-header strong {
+    font-size: 9px;
+  }
+
+  .day-date {
+    font-size: 8px;
+  }
+
+
+  /* =========================
+     AKTIVITETER
+  ========================= */
+
+  .cards {
+    min-height: 62px;
+
+    padding: 8px;
+
+    align-content: center;
+
+    row-gap: 5px;
+
+    overflow: visible;
+  }
+
+  .task-card {
+    max-width: 100%;
+
+    padding: 0 9px;
+
+    font-size: 10px;
+    line-height: 1.3;
+  }
+
+  .empty-day {
+    padding: 0 9px;
+
+    font-size: 8px;
+  }
+
+
+  /* =========================
+     KALENDER I BOTTEN
+  ========================= */
+
+  .calendar-section {
+    order: 2;
+
+    width: 100%;
+
+    display: flex;
+    flex-direction: column;
     gap: 10px;
   }
 
-  #rotateMessage span {
-    font-size: 50px;
-    color: #f0a15d;
+  .brand {
+    padding: 8px 4px 0;
   }
 
-  #rotateMessage strong {
+  .brand h1 {
     font-size: 24px;
   }
 
-  #rotateMessage p {
-    margin: 0;
+  .brand-line {
+    width: 85px;
 
-    color: rgba(255, 255, 255, 0.58);
+    margin: 5px 0 4px;
+  }
 
-    font-size: 14px;
+  .brand p {
+    font-size: 7px;
+  }
+
+  .calendar-frame {
+    width: 100%;
+    height: 520px;
+    min-height: 520px;
   }
 
 
-  /* När planeringsläget är aktivt
-     försvinner vanliga vrid-skärmen */
+  /* =========================
+     INGEN TVINGAD ROTATION
+  ========================= */
 
-  body.editor-open #rotateMessage {
-    display: none;
+  #rotateMessage {
+    display: none !important;
   }
-
-  body.editor-open #dashboard {
-    display: none;
-  }
-
-
-  /* Vrid-till-stående-overlayen behövs
-     inte längre när telefonen ÄR stående */
 
   #plannerRotateOverlay {
     display: none !important;
@@ -1200,9 +1379,8 @@ textarea:focus,
   }
 
 
-  /* 16px är medvetet.
-     iPhone Safari försöker annars
-     ofta zooma när ett fält får fokus. */
+  /* 16px hindrar Safari
+     från att zooma vid fokus */
 
   textarea,
   #highlightsForm input {
